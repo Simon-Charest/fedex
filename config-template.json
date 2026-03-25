@@ -1,0 +1,17 @@
+{
+    "environment": "test",
+    "test": {
+        "auth_url": "https://apis-sandbox.fedex.com/oauth/token",
+        "rate_url": "https://apis-sandbox.fedex.com/rate/v1/rates/quotes",
+        "client_id": "",
+        "client_secret": "",
+        "account_number": ""
+    },
+    "production": {
+        "auth_url": "https://apis.fedex.com/oauth/token",
+        "rate_url": "https://apis.fedex.com/rate/v1/rates/quotes",
+        "client_id": "",
+        "client_secret": "",
+        "account_number": ""
+    }
+}
