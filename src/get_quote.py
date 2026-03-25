@@ -2,22 +2,22 @@ from requests import Response, post
 from typing import Any
 
 
-def get_quote(url: str, token: str, account_number: str) -> dict[str, Any]:
-    data: dict[str, Any] = {
+def get_quote(url: str, token: str, account_number: str, postal_code: str) -> dict[str, Any]:
+    json: dict[str, Any] = {
         "accountNumber": {
             "value": account_number
         },
         "requestedShipment": {
             "shipper": {
                 "address": {
-                    "postalCode": "65247",
-                    "countryCode": "US"
+                    "postalCode": "J4G 1S8",
+                    "countryCode": "CA"
                 }
             },
             "recipient": {
                 "address": {
-                    "postalCode": "72348",
-                    "countryCode": "US"
+                    "postalCode": postal_code,
+                    "countryCode": "CA"
                 }
             },
             "pickupType": "DROPOFF_AT_FEDEX_LOCATION",
@@ -38,7 +38,7 @@ def get_quote(url: str, token: str, account_number: str) -> dict[str, Any]:
     headers: dict[str, str] = {
         "Authorization": f"Bearer {token}"
     }
-    response: Response = post(url, data, headers=headers)
+    response: Response = post(url, json=json, headers=headers)
     quote: dict[str, Any] = {}
 
     if response.status_code == 200:

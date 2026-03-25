@@ -13,8 +13,11 @@ def main() -> None:
 
     if arguments.quote:
         token: dict[str, Any] = get_token(configuration[configuration["environment"]]["auth_url"], configuration[configuration["environment"]]["client_id"], configuration[configuration["environment"]]["client_secret"])
-        quote: dict[str, Any] = get_quote(configuration[configuration["environment"]]["rate_url"], token["access_token"], configuration[configuration["environment"]]["account_number"])
-        print(quote)
+        quote: dict[str, Any] = get_quote(configuration[configuration["environment"]]["rate_url"], token["access_token"], configuration[configuration["environment"]]["account_number"], arguments.postal_code)
+
+        for service in quote["output"]["rateReplyDetails"]:
+            rate = service["ratedShipmentDetails"][0]
+            print(f"{service['serviceName']}: {rate['totalNetCharge']} {rate['currency']}")
 
     if arguments.token:
         token: dict[str, Any] = get_token(configuration[configuration["environment"]]["auth_url"], configuration[configuration["environment"]]["client_id"], configuration[configuration["environment"]]["client_secret"])
@@ -25,7 +28,7 @@ def main() -> None:
 
 def parse_arguments() -> Namespace:
     argument_parser: ArgumentParser = ArgumentParser()
-    argument_parser.add_argument("-q", "--quote", action="store_true", help="Get quote")
+    argument_parser.add_argument("-q", "--quote", help="Get quote")
     argument_parser.add_argument("-t", "--token", action="store_true", help="Get token")
     arguments: Namespace = argument_parser.parse_args()
 
